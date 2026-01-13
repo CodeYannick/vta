@@ -12,7 +12,7 @@ export default function MatchReportPage() {
     title: "VTA 新星杯单打赛",
     date: "2026-01-15",
     location: "朝阳公园网球中心",
-    level: "青铜",
+    level: "青铜赛",
     champion: {
       name: "张小雨",
       avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=250&auto=format&fit=crop",
@@ -26,14 +26,35 @@ export default function MatchReportPage() {
       {
         name: "决赛",
         matches: [
-          { p1: "张小雨", p2: "王二狗", score: "6-4", winner: 1 }
+          { 
+            p1: "张小雨", 
+            p1Avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop",
+            p2: "王二狗", 
+            p2Avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format&fit=crop",
+            score: "6-4", 
+            winner: 1 
+          }
         ]
       },
       {
         name: "半决赛",
         matches: [
-          { p1: "张小雨", p2: "李铁柱", score: "6-2", winner: 1 },
-          { p1: "王二狗", p2: "赵翠花", score: "7-5", winner: 1 }
+          { 
+            p1: "张小雨", 
+            p1Avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop",
+            p2: "李铁柱", 
+            p2Avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop",
+            score: "6-2", 
+            winner: 1 
+          },
+          { 
+            p1: "王二狗", 
+            p1Avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format&fit=crop",
+            p2: "赵翠花", 
+            p2Avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&auto=format&fit=crop",
+            score: "7-5", 
+            winner: 1 
+          }
         ]
       }
     ]
@@ -137,14 +158,20 @@ export default function MatchReportPage() {
                   {round.name}
                </div>
                <div className="divide-y divide-gray-50">
-                  {round.matches.map((m, i) => (
+                  {round.matches.map((m: any, i: number) => (
                      <div key={i} className="px-4 py-3 flex items-center justify-between">
-                        <div className={cn("flex-1 text-sm", m.winner === 1 ? "font-bold text-slate-800" : "text-gray-500")}>
+                        <div className={cn("flex-1 flex items-center text-sm", m.winner === 1 ? "font-bold text-slate-800" : "text-gray-500")}>
+                           <div className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden mr-2 shrink-0">
+                              <img src={m.p1Avatar} alt={m.p1} className="w-full h-full object-cover" />
+                           </div>
                            {m.p1}
                         </div>
                         <div className="px-4 font-mono font-bold text-vta-green">{m.score}</div>
-                        <div className={cn("flex-1 text-sm text-right", m.winner === 2 ? "font-bold text-slate-800" : "text-gray-500")}>
+                        <div className={cn("flex-1 flex items-center justify-end text-sm text-right", m.winner === 2 ? "font-bold text-slate-800" : "text-gray-500")}>
                            {m.p2}
+                           <div className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden ml-2 shrink-0">
+                              <img src={m.p2Avatar} alt={m.p2} className="w-full h-full object-cover" />
+                           </div>
                         </div>
                      </div>
                   ))}

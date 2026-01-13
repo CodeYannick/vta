@@ -13,7 +13,7 @@ export default function MyRegistrationsPage() {
       location: "北京市海淀区中关村网球馆",
       status: "success",
       statusText: "报名成功",
-      price: "¥120",
+      price: "¥200",
       image: "https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?q=80&w=2070&auto=format&fit=crop"
     },
     {

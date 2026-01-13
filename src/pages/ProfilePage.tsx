@@ -19,7 +19,7 @@ export default function ProfilePage() {
         {/* Avatar */}
         <div className="bg-white rounded-xl p-6 flex flex-col items-center justify-center space-y-3 shadow-sm">
             <div className="w-24 h-24 rounded-full bg-gray-200 relative overflow-hidden border-4 border-gray-100 shadow-lg">
-                <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=250&auto=format&fit=crop" alt="Avatar" className="w-full h-full object-cover" />
+                <img src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28?q=80&w=250&auto=format&fit=crop" alt="Avatar" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer">
                     <Camera className="text-white" />
                 </div>
@@ -41,7 +41,7 @@ export default function ProfilePage() {
             <MenuItem label="持拍手" value="右手" />
             <MenuItem label="反手" value="双手" />
             <MenuItem label="球龄" value="3年" />
-            <MenuItem label="NTRP级别" value="3.0" />
+            <MenuItem label="当前段位" value="钻石" />
         </div>
       </div>
     </div>

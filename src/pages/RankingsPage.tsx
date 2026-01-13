@@ -6,16 +6,16 @@ export default function RankingsPage() {
   const navigate = useNavigate()
 
   const rankings = [
-    { rank: 1, name: "李林峰", points: 1250, tier: "钻石 II", change: 0, avatar: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=250&auto=format&fit=crop" },
-    { rank: 2, name: "王大锤", points: 1180, tier: "钻石 III", change: 1, avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=250&auto=format&fit=crop" },
-    { rank: 3, name: "张小雨", points: 1150, tier: "白金 I", change: -1, avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=250&auto=format&fit=crop" },
-    { rank: 4, name: "陈子豪", points: 1020, tier: "白金 II", change: 2, avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=250&auto=format&fit=crop" },
-    { rank: 5, name: "刘梦", points: 980, tier: "白金 II", change: 0, avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=250&auto=format&fit=crop" },
-    { rank: 6, name: "赵四", points: 950, tier: "白金 III", change: -2, avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=250&auto=format&fit=crop" },
-    { rank: 7, name: "孙悟空", points: 900, tier: "黄金 I", change: 5, avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=250&auto=format&fit=crop" },
-    { rank: 8, name: "猪八戒", points: 880, tier: "黄金 I", change: -1, avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=250&auto=format&fit=crop" },
-    { rank: 9, name: "沙悟净", points: 850, tier: "黄金 II", change: 0, avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=250&auto=format&fit=crop" },
-    { rank: 10, name: "唐僧", points: 820, tier: "黄金 II", change: 0, avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=250&auto=format&fit=crop" },
+    { rank: 1, name: "李林峰", points: 1250, tier: "钻石 II", change: 0, avatar: "https://images.unsplash.com/photo-1600269452121-4f2416e55c28?q=80&w=250&auto=format&fit=crop" },
+    { rank: 2, name: "王大锤", points: 1180, tier: "钻石 III", change: 1, avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=250&auto=format&fit=crop" },
+    { rank: 3, name: "张小雨", points: 1150, tier: "白银 I", change: -1, avatar: "https://images.unsplash.com/photo-1548142813-c348350df52b?q=80&w=250&auto=format&fit=crop" },
+    { rank: 4, name: "陈子豪", points: 1020, tier: "白银 II", change: 2, avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=250&auto=format&fit=crop" },
+    { rank: 5, name: "刘梦", points: 980, tier: "白银 II", change: 0, avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=250&auto=format&fit=crop" },
+    { rank: 6, name: "赵四", points: 950, tier: "白银 III", change: -2, avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=250&auto=format&fit=crop" },
+    { rank: 7, name: "孙悟空", points: 900, tier: "青铜 I", change: 5, avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=250&auto=format&fit=crop" },
+    { rank: 8, name: "猪八戒", points: 880, tier: "青铜 I", change: -1, avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=250&auto=format&fit=crop" },
+    { rank: 9, name: "沙悟净", points: 850, tier: "青铜 II", change: 0, avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=250&auto=format&fit=crop" },
+    { rank: 10, name: "唐僧", points: 820, tier: "青铜 II", change: 0, avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=250&auto=format&fit=crop" },
   ]
 
   return (

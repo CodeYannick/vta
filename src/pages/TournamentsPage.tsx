@@ -16,7 +16,7 @@ export default function TournamentsPage() {
       location: "北京市海淀区中关村网球馆",
       status: "register", // register, ongoing, completed
       statusText: "报名中",
-      level: "白银",
+      level: "大师赛",
       signed: 24,
       total: 32,
       price: "¥120",
@@ -30,7 +30,7 @@ export default function TournamentsPage() {
       location: "国家网球中心",
       status: "register",
       statusText: "报名中",
-      level: "钻石",
+      level: "钻石赛",
       signed: 8,
       total: 16,
       price: "¥100",
@@ -44,7 +44,7 @@ export default function TournamentsPage() {
       location: "朝阳公园网球中心",
       status: "completed",
       statusText: "已完赛",
-      level: "青铜",
+      level: "青铜赛",
       signed: 16,
       total: 16,
       price: "¥80",
@@ -74,7 +74,7 @@ export default function TournamentsPage() {
       }
 
       if (sortConfig.key === 'level') {
-         const levelOrder = { "大满贯": 4, "钻石": 3, "白银": 2, "青铜": 1 }
+         const levelOrder = { "大满贯": 5, "大师赛": 4, "钻石赛": 3, "白银赛": 2, "青铜赛": 1 }
          const aLevel = aValue as keyof typeof levelOrder
          const bLevel = bValue as keyof typeof levelOrder
          return sortConfig.direction === 'asc'

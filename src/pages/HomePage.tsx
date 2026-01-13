@@ -1,4 +1,4 @@
-import { Search, MapPin, ChevronRight, Calendar, Users, Trophy, BarChart2, FileText, Table } from 'lucide-react'
+import { Search, MapPin, ChevronRight, Calendar, Users, Trophy, BarChart2, FileText, Activity } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 
 export default function HomePage() {
@@ -21,7 +21,7 @@ export default function HomePage() {
           />
         </div>
         <div className="w-8 h-8 rounded-full bg-gray-700 border border-gray-600 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=250&auto=format&fit=crop" alt="Avatar" className="w-full h-full object-cover" />
+          <img src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28?q=80&w=250&auto=format&fit=crop" alt="Avatar" className="w-full h-full object-cover" />
         </div>
       </header>
 
@@ -76,7 +76,7 @@ export default function HomePage() {
           { name: '积分排行', icon: BarChart2, path: '/rankings' },
           { name: '我的赛事', icon: Calendar, path: '/my/registrations' },
           { name: 'VTA介绍', icon: FileText, path: '/intro' },
-          { name: '赛程表', icon: Table, path: '/tournaments' },
+          { name: '生涯数据', icon: Activity, path: '/career' },
         ].map((item, i) => (
           <Link to={item.path} key={i} className="flex flex-col items-center space-y-2">
             <div className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-vta-green">
@@ -103,7 +103,7 @@ export default function HomePage() {
             date="2026-01-20 19:00"
             location="北京市海淀区中关村网球馆"
             status="报名中"
-            level="钻石"
+            level="大师赛"
             signed={24}
             total={32}
             image="https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?q=80&w=2070&auto=format&fit=crop"
@@ -115,7 +115,7 @@ export default function HomePage() {
             date="2026-01-24 14:00"
             location="国家网球中心"
             status="报名中"
-            level="白银"
+            level="钻石赛"
             signed={8}
             total={16}
             image="https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?q=80&w=2070&auto=format&fit=crop"

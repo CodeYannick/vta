@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ArrowLeft, CheckCircle, Clock, ShieldCheck, ChevronRight, X } from 'lucide-react'
+import { ArrowLeft, CheckCircle, Clock, ShieldCheck, ChevronRight, X, Plus, User } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 
@@ -8,14 +8,59 @@ export default function PaymentPage() {
   const { id } = useParams()
   const [step, setStep] = useState<'confirm' | 'processing' | 'success'>('confirm')
   const [showInsurance, setShowInsurance] = useState(false)
+  const [showPlayerModal, setShowPlayerModal] = useState(false)
+  const [showAddPlayer, setShowAddPlayer] = useState(false)
 
-  // Mock Data
+  // Mock Players Data
+  const [players, setPlayers] = useState([
+    {
+      id: 1,
+      name: "李林峰",
+      phone: "138****8888",
+      idCard: "510107********1234",
+      relation: "本人",
+      isDefault: true
+    },
+    {
+      id: 2,
+      name: "张小雨",
+      phone: "139****9999",
+      idCard: "510107********5678",
+      relation: "朋友",
+      isDefault: false
+    }
+  ])
+
+  const [selectedPlayer, setSelectedPlayer] = useState(players[0])
+
+  // New Player Form State
+  const [newPlayer, setNewPlayer] = useState({
+    name: '',
+    phone: '',
+    idCard: '',
+    relation: '朋友'
+  })
+
+  const handleAddPlayer = () => {
+    if (!newPlayer.name || !newPlayer.phone || !newPlayer.idCard) return
+    const player = {
+      id: players.length + 1,
+      ...newPlayer,
+      isDefault: false
+    }
+    setPlayers([...players, player])
+    setSelectedPlayer(player)
+    setShowAddPlayer(false)
+    setShowPlayerModal(false)
+    // Reset form
+    setNewPlayer({ name: '', phone: '', idCard: '', relation: '朋友' })
+  }
   const tournament = {
     id: id,
     title: "2026年冬季网球大师赛",
     date: "2026-01-20 19:00",
     location: "北京市海淀区中关村网球馆",
-    price: 120,
+    price: 200,
     insuranceFee: 0, // Free for MVP
   }
 
@@ -78,7 +123,7 @@ export default function PaymentPage() {
            <div className="text-xs text-gray-500 space-y-1">
              <p>时间：{tournament.date}</p>
              <p>地点：{tournament.location}</p>
-             <p>项目：单打 / NTRP 3.0</p>
+             <p>项目：单打 / 大师赛</p>
            </div>
         </div>
 
@@ -86,17 +131,17 @@ export default function PaymentPage() {
         <div className="bg-white rounded-xl p-4 shadow-sm">
            <div className="flex justify-between items-center mb-3">
              <h3 className="font-bold text-slate-800 text-sm">参赛信息</h3>
-             <button className="text-xs text-vta-green">修改</button>
+             <button className="text-xs text-vta-green" onClick={() => setShowPlayerModal(true)}>修改</button>
            </div>
            <div className="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
               <div>
-                <div className="font-bold text-slate-800 text-sm mb-0.5">李林峰</div>
+                <div className="font-bold text-slate-800 text-sm mb-0.5">{selectedPlayer.name}</div>
                 <div className="text-xs text-gray-500 space-y-0.5">
-                    <p>138****8888</p>
-                    <p className="text-gray-400">510107********1234</p>
+                    <p>{selectedPlayer.phone}</p>
+                    <p className="text-gray-400">{selectedPlayer.idCard}</p>
                 </div>
               </div>
-              <div className="text-xs text-gray-400">默认报名人</div>
+              <div className="text-xs text-gray-400">{selectedPlayer.relation === '本人' ? '默认报名人' : selectedPlayer.relation}</div>
            </div>
         </div>
 
@@ -135,6 +180,143 @@ export default function PaymentPage() {
           {step === 'processing' ? '正在支付...' : `立即支付 ¥${tournament.price}`}
         </button>
       </div>
+
+      {/* Player Selection Modal */}
+      {showPlayerModal && (
+        <div className="absolute inset-0 z-50">
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => {
+                setShowPlayerModal(false)
+                setShowAddPlayer(false)
+            }}></div>
+            <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl p-6 animate-in slide-in-from-bottom duration-300">
+                {!showAddPlayer ? (
+                    <>
+                        <div className="flex justify-between items-center mb-6">
+                            <h3 className="text-lg font-bold text-slate-800">选择参赛人</h3>
+                            <button onClick={() => setShowPlayerModal(false)} className="p-1 bg-gray-100 rounded-full">
+                                <X size={16} className="text-gray-500" />
+                            </button>
+                        </div>
+                        
+                        <div className="space-y-3 mb-6 max-h-[50vh] overflow-y-auto">
+                            {players.map(player => (
+                                <div 
+                                    key={player.id}
+                                    onClick={() => {
+                                        setSelectedPlayer(player)
+                                        setShowPlayerModal(false)
+                                    }}
+                                    className={cn(
+                                        "p-4 rounded-xl border flex items-center justify-between cursor-pointer transition-colors",
+                                        selectedPlayer.id === player.id 
+                                            ? "border-vta-green bg-vta-green/5" 
+                                            : "border-gray-100 hover:border-vta-green/30"
+                                    )}
+                                >
+                                    <div className="flex items-center">
+                                        <div className={cn(
+                                            "w-10 h-10 rounded-full flex items-center justify-center mr-3",
+                                            selectedPlayer.id === player.id ? "bg-vta-green/20 text-vta-green" : "bg-gray-100 text-gray-400"
+                                        )}>
+                                            <User size={20} />
+                                        </div>
+                                        <div>
+                                            <div className="font-bold text-slate-800 text-sm flex items-center">
+                                                {player.name}
+                                                <span className="ml-2 text-[10px] text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded font-normal">
+                                                    {player.relation}
+                                                </span>
+                                            </div>
+                                            <div className="text-xs text-gray-400 mt-0.5">{player.idCard}</div>
+                                        </div>
+                                    </div>
+                                    {selectedPlayer.id === player.id && (
+                                        <CheckCircle size={18} className="text-vta-green" />
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+
+                        <button 
+                            onClick={() => setShowAddPlayer(true)}
+                            className="w-full py-3 rounded-full font-bold border border-gray-200 text-slate-600 flex items-center justify-center hover:bg-gray-50 transition-colors"
+                        >
+                            <Plus size={18} className="mr-1" /> 新增参赛人
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <div className="flex justify-between items-center mb-6">
+                            <button onClick={() => setShowAddPlayer(false)} className="flex items-center text-sm text-gray-500">
+                                <ArrowLeft size={16} className="mr-1" /> 返回
+                            </button>
+                            <h3 className="text-lg font-bold text-slate-800">新增参赛人</h3>
+                            <div className="w-12"></div> {/* Spacer */}
+                        </div>
+
+                        <div className="space-y-4 mb-8">
+                            <div>
+                                <label className="block text-xs font-medium text-gray-500 mb-1">真实姓名</label>
+                                <input 
+                                    type="text" 
+                                    value={newPlayer.name}
+                                    onChange={e => setNewPlayer({...newPlayer, name: e.target.value})}
+                                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-vta-green transition-colors"
+                                    placeholder="请输入真实姓名"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-medium text-gray-500 mb-1">手机号码</label>
+                                <input 
+                                    type="tel" 
+                                    value={newPlayer.phone}
+                                    onChange={e => setNewPlayer({...newPlayer, phone: e.target.value})}
+                                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-vta-green transition-colors"
+                                    placeholder="请输入手机号码"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-medium text-gray-500 mb-1">身份证号</label>
+                                <input 
+                                    type="text" 
+                                    value={newPlayer.idCard}
+                                    onChange={e => setNewPlayer({...newPlayer, idCard: e.target.value})}
+                                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-vta-green transition-colors"
+                                    placeholder="请输入身份证号"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-medium text-gray-500 mb-1">关系</label>
+                                <div className="flex space-x-2">
+                                    {['朋友', '家属', '其他'].map(rel => (
+                                        <button 
+                                            key={rel}
+                                            onClick={() => setNewPlayer({...newPlayer, relation: rel})}
+                                            className={cn(
+                                                "px-4 py-1.5 rounded-full text-xs transition-colors",
+                                                newPlayer.relation === rel 
+                                                    ? "bg-vta-green text-white" 
+                                                    : "bg-gray-100 text-gray-500"
+                                            )}
+                                        >
+                                            {rel}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        <button 
+                            onClick={handleAddPlayer}
+                            className="w-full bg-vta-green text-white py-3 rounded-full font-bold shadow-lg shadow-vta-green/30"
+                        >
+                            保存并使用
+                        </button>
+                    </>
+                )}
+            </div>
+        </div>
+      )}
 
       {/* Insurance Modal */}
       {showInsurance && (

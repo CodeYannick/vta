@@ -35,9 +35,11 @@ export default function IntroductionPage() {
             <section>
                 <h3 className="text-lg font-bold text-slate-800 mb-3 border-l-4 border-vta-green pl-3">赛制体系</h3>
                 <ul className="list-disc pl-5 space-y-2">
-                    <li><strong className="text-slate-700">大师赛 (Masters)</strong>：最高级别赛事，积分权重 1000</li>
-                    <li><strong className="text-slate-700">挑战赛 (Challenger)</strong>：进阶赛事，积分权重 500</li>
-                    <li><strong className="text-slate-700">未来赛 (Futures)</strong>：入门赛事，积分权重 250</li>
+                    <li><strong className="text-slate-700">大满贯 (Grand Slam)</strong>：网球圣殿，积分权重 2000</li>
+                    <li><strong className="text-slate-700">大师赛 (Masters)</strong>：顶级对决，积分权重 1000</li>
+                    <li><strong className="text-slate-700">钻石赛 (Diamond)</strong>：精英较量，积分权重 500</li>
+                    <li><strong className="text-slate-700">白银赛 (Silver)</strong>：进阶挑战，积分权重 250</li>
+                    <li><strong className="text-slate-700">青铜赛 (Bronze)</strong>：新秀启航，积分权重 125</li>
                     <li><strong className="text-slate-700">年终总决赛 (Finals)</strong>：年度积分前8名受邀参加</li>
                 </ul>
             </section>

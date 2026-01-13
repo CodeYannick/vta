@@ -1,4 +1,4 @@
-import { Settings, CreditCard, Users, FileText, ChevronRight, LogOut, ShieldCheck, Trophy } from 'lucide-react'
+import { Settings, CreditCard, Users, ChevronRight, LogOut, Trophy, Calendar } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 
@@ -8,7 +8,7 @@ export default function MyPage() {
   const user = {
     name: "微信用户",
     id: "VTA-8848",
-    avatar: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=250&auto=format&fit=crop",
+    avatar: "https://images.unsplash.com/photo-1600269452121-4f2416e55c28?q=80&w=250&auto=format&fit=crop",
     days: 2
   }
 
@@ -53,11 +53,10 @@ export default function MyPage() {
         <div className="bg-white rounded-xl shadow-sm p-4">
            <h2 className="text-sm font-bold text-slate-800 mb-4 ml-1">赛事服务</h2>
            <div className="grid grid-cols-4 gap-4">
-              <MenuIcon label="我的赛事" icon={Trophy} onClick={() => navigate('/tournaments')} />
-              <MenuIcon label="我的报名" icon={FileText} onClick={() => navigate('/my/registrations')} />
+              <MenuIcon label="我的赛事" icon={Calendar} onClick={() => navigate('/my/registrations')} />
+              <MenuIcon label="赛事大厅" icon={Trophy} onClick={() => navigate('/tournaments')} />
               <MenuIcon label="常用报名人" icon={Users} highlight onClick={() => navigate('/my/players')} />
-              <MenuIcon label="我的订单" icon={CreditCard} onClick={() => alert('查看订单列表')} />
-              <MenuIcon label="我的保险" icon={ShieldCheck} onClick={() => alert('查看保险单')} />
+              <MenuIcon label="我的订单" icon={CreditCard} onClick={() => navigate('/my/orders')} />
            </div>
         </div>
 
@@ -86,16 +85,18 @@ function MenuIcon({ label, icon: Icon, color, highlight, onClick }: any) {
    return (
      <button 
        onClick={onClick}
-       className="flex flex-col items-center space-y-2 active:opacity-60 transition-opacity relative group w-full"
+       className="flex flex-col items-center space-y-2 active:opacity-60 transition-opacity group w-full"
      >
-       {highlight && (
-         <div className="absolute top-0 right-2 w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-       )}
-       <div className={cn(
-         "w-10 h-10 rounded-full flex items-center justify-center transition-colors",
-         "bg-gray-50 group-hover:bg-gray-100"
-       )}>
-          <Icon size={20} className={color || "text-slate-700"} />
+       <div className="relative">
+         <div className={cn(
+           "w-10 h-10 rounded-full flex items-center justify-center transition-colors",
+           "bg-gray-50 group-hover:bg-gray-100"
+         )}>
+            <Icon size={20} className={color || "text-slate-700"} />
+         </div>
+         {highlight && (
+           <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full animate-pulse border border-white"></div>
+         )}
        </div>
        <span className="text-[11px] text-gray-600">{label}</span>
      </button>

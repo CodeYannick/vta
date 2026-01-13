@@ -12,6 +12,7 @@ import IntroductionPage from './pages/IntroductionPage'
 import ProfilePage from './pages/ProfilePage'
 import CareerPage from './pages/CareerPage'
 import MyPage from './pages/MyPage'
+import MyOrdersPage from './pages/MyOrdersPage'
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/intro" element={<IntroductionPage />} />
           <Route path="/career" element={<CareerPage />} />
           <Route path="/my" element={<MyPage />} />
+          <Route path="/my/orders" element={<MyOrdersPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Layout>
