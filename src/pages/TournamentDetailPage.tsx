@@ -1,4 +1,4 @@
-import { ArrowLeft, Share2, Phone, Navigation, Heart, CheckCircle2, Circle, X, Users, ChevronDown, ChevronUp } from 'lucide-react'
+import { ArrowLeft, Share2, Phone, Navigation, Heart, CheckCircle2, Circle, X, Users, ChevronDown, ChevronUp, Info } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
@@ -11,6 +11,7 @@ export default function TournamentDetailPage() {
   const [showRulesModal, setShowRulesModal] = useState(false)
   const [showDetailedRulesModal, setShowDetailedRulesModal] = useState(false)
   const [activeTab, setActiveTab] = useState('info')
+  const [drawTab, setDrawTab] = useState<'upcoming' | 'finished'>('upcoming')
   const [showFullDescription, setShowFullDescription] = useState(false)
 
   // Mock Data
@@ -236,7 +237,7 @@ export default function TournamentDetailPage() {
                                 详细规则 <ChevronDown size={10} className="-rotate-90 ml-0.5" />
                             </span>
                         </div>
-                        <p className="text-xs text-orange-500 bg-orange-50 p-2 rounded-lg">
+                        <p className="text-xs text-[#FF6B00] bg-[#FFF8F2] p-3 rounded-lg leading-relaxed">
                             {tournament.refundPolicy}
                         </p>
                     </div>
@@ -283,41 +284,75 @@ export default function TournamentDetailPage() {
         {/* Tab Content: Draw */}
         {activeTab === '签表' && (
             <div className="space-y-3 animate-in fade-in duration-300 pb-4">
-                {mockDraw.map((round, rIndex) => (
-                    <div key={rIndex} className="bg-white rounded-xl p-4 shadow-sm">
-                        <SectionTitle title={round.round} />
-                        <div className="space-y-3">
-                            {round.matches.map((match, mIndex) => (
-                                <div key={mIndex} className="bg-gray-50 rounded-lg p-3 border border-gray-100">
-                                    <div className="flex justify-between items-center mb-2">
-                                        <div className="text-xs text-gray-400">{match.id < 10 ? `Match 0${match.id + 1}` : `Match ${match.id + 1}`}</div>
-                                        <div className={cn(
-                                            "text-[10px] px-1.5 py-0.5 rounded",
-                                            match.status === 'finished' ? "bg-gray-200 text-gray-500" : "bg-blue-50 text-blue-600"
-                                        )}>
-                                            {match.status === 'finished' ? '完赛' : '未开赛'}
+                {/* Draw Sub-tabs */}
+                <div className="flex p-1 bg-gray-200/50 rounded-lg mx-4 mb-2">
+                    <button
+                        onClick={() => setDrawTab('upcoming')}
+                        className={cn(
+                            "flex-1 py-1.5 text-xs font-bold rounded-md transition-all",
+                            drawTab === 'upcoming' ? "bg-white text-slate-800 shadow-sm" : "text-gray-500 hover:text-gray-700"
+                        )}
+                    >
+                        未开赛
+                    </button>
+                    <button
+                        onClick={() => setDrawTab('finished')}
+                        className={cn(
+                            "flex-1 py-1.5 text-xs font-bold rounded-md transition-all",
+                            drawTab === 'finished' ? "bg-white text-slate-800 shadow-sm" : "text-gray-500 hover:text-gray-700"
+                        )}
+                    >
+                        完赛
+                    </button>
+                </div>
+
+                {mockDraw.map((round, rIndex) => {
+                    const filteredMatches = round.matches.filter(m => m.status === drawTab)
+                    if (filteredMatches.length === 0) return null
+
+                    return (
+                        <div key={rIndex} className="bg-white rounded-xl p-4 shadow-sm">
+                            <SectionTitle title={round.round} />
+                            <div className="space-y-3">
+                                {filteredMatches.map((match, mIndex) => (
+                                    <div key={mIndex} className="bg-gray-50 rounded-lg p-3 border border-gray-100">
+                                        <div className="flex justify-between items-center mb-2">
+                                            <div className="text-xs text-gray-400">{match.id < 10 ? `Match 0${match.id + 1}` : `Match ${match.id + 1}`}</div>
+                                            <div className={cn(
+                                                "text-[10px] px-1.5 py-0.5 rounded",
+                                                match.status === 'finished' ? "bg-gray-200 text-gray-500" : "bg-blue-50 text-blue-600"
+                                            )}>
+                                                {match.status === 'finished' ? '完赛' : '未开赛'}
+                                            </div>
                                         </div>
+                                        <div className="space-y-2">
+                                            <div className="flex justify-between items-center">
+                                                <span className={cn("text-sm font-medium", match.status === 'finished' ? "text-slate-800" : "text-slate-600")}>{match.p1}</span>
+                                                {match.status === 'finished' && <span className="font-bold text-slate-800">{match.score.split(':')[0]}</span>}
+                                            </div>
+                                            <div className="flex justify-between items-center">
+                                                <span className={cn("text-sm font-medium", match.status === 'finished' ? "text-slate-400" : "text-slate-600")}>{match.p2}</span>
+                                                {match.status === 'finished' && <span className="font-bold text-slate-400">{match.score.split(':')[1]}</span>}
+                                            </div>
+                                        </div>
+                                        {match.status !== 'finished' && (
+                                            <div className="mt-2 text-center text-xs text-blue-500 font-medium bg-blue-50/50 py-1 rounded">
+                                                VS
+                                            </div>
+                                        )}
                                     </div>
-                                    <div className="space-y-2">
-                                        <div className="flex justify-between items-center">
-                                            <span className={cn("text-sm font-medium", match.status === 'finished' ? "text-slate-800" : "text-slate-600")}>{match.p1}</span>
-                                            {match.status === 'finished' && <span className="font-bold text-slate-800">{match.score.split(':')[0]}</span>}
-                                        </div>
-                                        <div className="flex justify-between items-center">
-                                            <span className={cn("text-sm font-medium", match.status === 'finished' ? "text-slate-400" : "text-slate-600")}>{match.p2}</span>
-                                            {match.status === 'finished' && <span className="font-bold text-slate-400">{match.score.split(':')[1]}</span>}
-                                        </div>
-                                    </div>
-                                    {match.status !== 'finished' && (
-                                        <div className="mt-2 text-center text-xs text-blue-500 font-medium bg-blue-50/50 py-1 rounded">
-                                            VS
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
+                    )
+                })}
+                
+                {mockDraw.every(r => r.matches.filter(m => m.status === drawTab).length === 0) && (
+                    <div className="py-12 text-center text-gray-400 text-xs">
+                        <Info size={24} className="mx-auto mb-2 opacity-30" />
+                        <p>暂无{drawTab === 'upcoming' ? '未开赛' : '完赛'}数据</p>
                     </div>
-                ))}
+                )}
             </div>
         )}
 
@@ -358,20 +393,20 @@ export default function TournamentDetailPage() {
       </div>
 
       {/* Footer */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200 p-2 pb-safe z-50">
-         <div className="flex items-center justify-start mb-3 px-2 py-1">
+      <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200 px-4 py-3 pb-safe z-50">
+         <div className="flex items-center justify-start mb-3">
             <div 
                 className="flex items-center text-xs text-gray-500 cursor-pointer select-none group" 
                 onClick={() => setAgree(!agreed)}
             >
                 {agreed ? (
-                    <CheckCircle2 size={16} className="text-vta-gold mr-2 shrink-0" /> 
+                    <CheckCircle2 size={18} className="text-[#FF6600] mr-2 shrink-0" /> 
                 ) : (
-                    <Circle size={16} className="text-gray-400 mr-2 shrink-0 group-hover:text-gray-600 transition-colors" />
+                    <Circle size={18} className="text-gray-400 mr-2 shrink-0 group-hover:text-gray-600 transition-colors" />
                 )}
                 <span>我已阅读并同意</span>
                 <span 
-                    className="text-slate-800 font-bold underline ml-1 cursor-pointer hover:text-vta-gold transition-colors"
+                    className="text-slate-800 font-bold underline ml-1 cursor-pointer hover:text-[#FF6600] transition-colors"
                     onClick={(e) => {
                         e.stopPropagation()
                         setShowRulesModal(true)
@@ -381,22 +416,22 @@ export default function TournamentDetailPage() {
                 </span>
             </div>
          </div>
-         <div className="flex items-center space-x-3 px-2">
-            <div className="flex flex-col items-center justify-center w-12 text-gray-500 hover:text-slate-800 transition-colors cursor-pointer">
-                <Share2 size={20} />
+         <div className="flex items-center space-x-4 pb-4">
+            {/* <div className="flex flex-col items-center justify-center w-12 text-gray-500 hover:text-slate-800 transition-colors cursor-pointer">
+                <Share2 size={22} />
                 <span className="text-[10px] mt-1 font-medium">分享</span>
             </div>
             <div className="flex flex-col items-center justify-center w-12 text-gray-500 hover:text-red-500 transition-colors cursor-pointer">
-                <Heart size={20} />
+                <Heart size={22} />
                 <span className="text-[10px] mt-1 font-medium">关注</span>
-            </div>
+            </div> */}
             <button 
                 onClick={handleRegisterClick}
                 className={cn(
-                    "flex-1 font-bold py-3 rounded-full shadow-lg transition-all active:scale-95 flex flex-col items-center justify-center leading-tight",
+                    "flex-1 h-12 rounded-full font-bold text-[16px] tracking-wide transition-all duration-300 flex items-center justify-center border",
                     agreed 
-                        ? "bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-orange-500/30" 
-                        : "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none"
+                        ? "bg-gray-800 text-white  hover:scale-[1.02] active:scale-95" 
+                        : "bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed"
                 )}
             >
                 <span>立即报名</span>
@@ -415,22 +450,22 @@ export default function TournamentDetailPage() {
                           <X size={20} />
                       </button>
                   </div>
-                  <div className="p-5 overflow-y-auto">
-                      <div className="space-y-4 text-sm text-gray-600">
+                  <div className="p-8 overflow-y-auto">
+                      <div className="space-y-6 text-sm text-gray-600">
                           <div>
-                              <h4 className="font-bold text-slate-800 mb-2">1. 报名要求</h4>
+                              <h4 className="font-bold text-slate-900 text-[15px] mb-2">1. 报名要求</h4>
                               <p className="leading-relaxed">所有参赛选手必须符合本次赛事的年龄和资格限制。请确保您填写的个人信息真实有效，否则组委会将保留取消您参赛资格的权利。</p>
                           </div>
                           <div>
-                              <h4 className="font-bold text-slate-800 mb-2">2. 健康声明</h4>
+                              <h4 className="font-bold text-slate-900 text-[15px] mb-2">2. 健康声明</h4>
                               <p className="leading-relaxed">参赛选手应确保身体健康，无不适合剧烈运动的疾病。比赛期间如出现身体不适，应立即停止比赛并向工作人员寻求帮助。</p>
                           </div>
                           <div>
-                              <h4 className="font-bold text-slate-800 mb-2">3. 免责协议</h4>
+                              <h4 className="font-bold text-slate-900 text-[15px] mb-2">3. 免责协议</h4>
                               <p className="leading-relaxed">报名即视为自愿参赛并承担比赛可能带来的风险。赛事主办方不对比赛期间发生的意外伤害承担法律责任。</p>
                           </div>
                           <div>
-                              <h4 className="font-bold text-slate-800 mb-2">4. 肖像权</h4>
+                              <h4 className="font-bold text-slate-900 text-[15px] mb-2">4. 肖像权</h4>
                               <p className="leading-relaxed">组委会有权无偿使用参赛选手的比赛照片、视频等影像资料用于赛事宣传和推广。</p>
                           </div>
                       </div>
@@ -461,36 +496,33 @@ export default function TournamentDetailPage() {
                           <X size={20} />
                       </button>
                   </div>
-                  <div className="p-5 overflow-y-auto">
-                      <div className="space-y-5 text-sm text-gray-600">
+                  <div className="p-8 overflow-y-auto">
+                      <div className="space-y-6 text-sm text-gray-600">
                           <div>
-                              <h4 className="font-bold text-slate-800 mb-2 flex items-center">
-                                  <span className="w-1.5 h-4 bg-orange-500 rounded-full mr-2"></span>
+                              <h4 className="font-bold text-slate-900 text-[15px] mb-2">
                                   赛制说明
                               </h4>
-                              <p className="leading-relaxed text-xs">
+                              <p className="leading-relaxed text-sm">
                                   1. 小组赛阶段：采用分组循环赛，每组4人，前2名晋级。<br/>
                                   2. 淘汰赛阶段：采用单败淘汰制，直至决出冠军。<br/>
                                   3. 比赛采用一盘6局无占先制（NO-AD），6-6时抢七决胜。
                               </p>
                           </div>
                           <div>
-                              <h4 className="font-bold text-slate-800 mb-2 flex items-center">
-                                  <span className="w-1.5 h-4 bg-orange-500 rounded-full mr-2"></span>
+                              <h4 className="font-bold text-slate-900 text-[15px] mb-2">
                                   退赛与退费
                               </h4>
-                              <p className="leading-relaxed text-xs">
+                              <p className="leading-relaxed text-sm">
                                   1. 比赛开始前24小时以上申请退赛，报名费全额退还。<br/>
                                   2. 比赛开始前24小时以内申请退赛，报名费不予退还，但在自行找到替补选手的情况下可以转让名额。<br/>
                                   3. 比赛开始后因伤退赛，报名费不予退还。
                               </p>
                           </div>
                           <div>
-                              <h4 className="font-bold text-slate-800 mb-2 flex items-center">
-                                  <span className="w-1.5 h-4 bg-orange-500 rounded-full mr-2"></span>
+                              <h4 className="font-bold text-slate-900 text-[15px] mb-2">
                                   积分规则
                               </h4>
-                              <p className="leading-relaxed text-xs">
+                              <p className="leading-relaxed text-sm">
                                   冠军：1000分<br/>
                                   亚军：600分<br/>
                                   四强：360分<br/>
@@ -500,11 +532,10 @@ export default function TournamentDetailPage() {
                               </p>
                           </div>
                           <div>
-                              <h4 className="font-bold text-slate-800 mb-2 flex items-center">
-                                  <span className="w-1.5 h-4 bg-orange-500 rounded-full mr-2"></span>
+                              <h4 className="font-bold text-slate-900 text-[15px] mb-2">
                                   其他事项
                               </h4>
-                              <p className="leading-relaxed text-xs">
+                              <p className="leading-relaxed text-sm">
                                   1. 请参赛选手提前30分钟到达现场签到。<br/>
                                   2. 比赛用球由组委会提供（Head Tour XT）。<br/>
                                   3. 最终解释权归VTA组委会所有。
