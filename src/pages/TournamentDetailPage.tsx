@@ -1,4 +1,4 @@
-import { ArrowLeft, Share2, Phone, Navigation, Heart, CheckCircle2, Circle, X, Users, ChevronDown, ChevronUp, Info } from 'lucide-react'
+import { ArrowLeft, Share2, Phone, Navigation, CheckCircle2, Circle, X, Users, ChevronDown, ChevronUp, Info } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
